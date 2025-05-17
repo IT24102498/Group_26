@@ -1,0 +1,268 @@
+/* style.css */
+
+/* Custom Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Base Styles with Background Image */
+body {
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-image: url('https://media.istockphoto.com/id/1247853982/photo/cheering-crowd-with-hands-in-air-at-music-festival.jpg?s=2048x2048&w=is&k=20&c=DbYnuPLZ3ga9QyEMxgc5Mn9wP3AYH8ofiytno2o7HPw=');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    margin: 0;
+    color: #333;
+}
+
+/* Navigation Bar with Glass Effect */
+nav {
+    background-color: rgba(76, 29, 149, 0.85) !important;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Hero Section with Glass Effect */
+header {
+    background: linear-gradient(135deg, rgba(76, 29, 149, 0.85), rgba(102, 51, 153, 0.85)) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Featured Events Section - Glass Cards */
+.bg-white {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    background-color: rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Event Images */
+.event-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.bg-white:hover .event-image {
+    transform: scale(1.03);
+}
+
+/* Specific event images */
+#summer-festival {
+    background-image: url('https://media.istockphoto.com/id/108127901/photo/contemporary-female-dancers-on-stage.jpg?s=2048x2048&w=is&k=20&c=UUMC5IJTVFmZRGVzq6hhMlK3AviSA-pOovnBbx-gnD8=');
+    background-size: cover;
+    background-position: center;
+}
+
+#jazz-night {
+    background-image: url('https://media.istockphoto.com/id/1342347096/photo/jazz-club-with-musicians-performing-on-stage.jpg?s=2048x2048&w=is&k=20&c=5Q3K1j5X6vZ6j7J7Q3Z3X3Q3Z3X3Q3Z3X3Q3Z3X3Q3Z3X3Q=');
+    background-size: cover;
+    background-position: center;
+}
+
+#edm-extravaganza {
+    background-image: url('https://media.istockphoto.com/id/1322205580/photo/edm-dj-performing-at-music-festival-with-lasers-and-smoke.jpg?s=2048x2048&w=is&k=20&c=5Q3K1j5X6vZ6j7J7Q3Z3X3Q3Z3X3Q3Z3X3Q3Z3X3Q3Z3X3Q=');
+    background-size: cover;
+    background-position: center;
+}
+
+/* Newsletter Section with Glass Effect */
+.bg-purple-100 {
+    background-color: rgba(243, 232, 255, 0.85) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Footer with Glass Effect */
+.bg-gray-800 {
+    background-color: rgba(31, 41, 55, 0.9) !important;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Buttons with Glass Effect */
+.bg-purple-900 {
+    background-color: rgba(76, 29, 149, 0.9) !important;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bg-purple-900:hover {
+    background-color: rgba(91, 33, 182, 0.95) !important;
+    backdrop-filter: blur(4px);
+}
+
+/* Form Input */
+input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(128, 90, 213, 0.3);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .text-5xl {
+        font-size: 2.5rem;
+    }
+
+    .text-xl {
+        font-size: 1.1rem;
+    }
+
+    nav div {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .event-image {
+        height: 180px;
+    }
+}
+
+/* Image Loading Effect */
+img {
+    transition: opacity 0.5s ease;
+    opacity: 0;
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+img.loaded {
+    opacity: 1;
+}
+
+/* Text Contrast Enhancement */
+.text-white {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Content Styling */
+.p-6 h3 {
+    color: #1f2937;
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.p-6 p.text-gray-600 {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.p-6 p:not(.text-gray-600) {
+    color: #4b5563;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+}
+
+/* Price styling */
+.p-6 span.font-bold {
+    color: #6b21a8;
+    font-size: 1.25rem;
+}
+
+/* Newsletter Form */
+.max-w-md {
+    max-width: 28rem;
+}
+
+/* Footer Links */
+footer a {
+    transition: all 0.2s ease;
+    color: #d1d5db !important;
+}
+
+footer a:hover {
+    color: #e5e7eb !important;
+    text-decoration: underline;
+}
+
+/* Content Container */
+.container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Ensure content stands out against background */
+section {
+    margin: 2rem auto;
+    border-radius: 0.5rem;
+}
+
+/* Hero text shadow for better readability */
+header h1, header p {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Additional Glass Effects for Featured Events Section */
+section.py-12 {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    padding: 3rem 1rem;
+    margin: 2rem 0;
+}
+
+/* Enhanced hover effect for cards */
+.bg-white.rounded-lg.shadow-lg:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Event card header images */
+.event-header {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.event-header::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.3) 100%);
+}
+
+/* Event date ribbon */
+.event-date {
+    position: absolute;
+    top: 15px;
+    right: -5px;
+    background: rgba(76, 29, 149, 0.9);
+    color: white;
+    padding: 5px 15px;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.event-date::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    border-left: 10px solid transparent;
+    border-top: 15px solid rgba(56, 19, 119, 0.9);
+    border-bottom: 15px solid rgba(56, 19, 119, 0.9);
+}

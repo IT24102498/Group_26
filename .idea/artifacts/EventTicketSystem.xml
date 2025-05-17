@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="EventTicketSystem">
+    <output-path>$PROJECT_DIR$/out/artifacts/EventTicketSystem</output-path>
+    <root id="archive" name="EventTicketSystem.war">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="EventTicketSystem" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.12.3" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.12.3" />
+          <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
+        </element>
+      </element>
+      <element id="javaee-facet-resources" facet="EventTicketSystem/web/Web" />
+    </root>
+  </artifact>
+</component>
