@@ -9,7 +9,11 @@ public class Payment {
     private String userId;
     private double amount;
     private String cardNumber;
-
+    private String cardHolderName;
+    private String expiryDate;
+    private String cvv;
+    private Date paymentDate;
+    private String status;
 
     // Constructors
     public Payment() {}
@@ -23,7 +27,11 @@ public class Payment {
         this.userId = userId;
         this.amount = amount;
         this.cardNumber = cardNumber;
-
+        this.cardHolderName = cardHolderName;
+        this.expiryDate = expiryDate;
+        this.cvv = cvv;
+        this.paymentDate = paymentDate;
+        this.status = status;
     }
 
     // Getters and Setters
@@ -45,5 +53,18 @@ public class Payment {
     public String getCardNumber() { return cardNumber; }
     public void setCardNumber(String cardNumber) { this.cardNumber = cardNumber; }
 
+    public String getCardHolderName() { return cardHolderName; }
+    public void setCardHolderName(String cardHolderName) { this.cardHolderName = cardHolderName; }
 
+    public String getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(String expiryDate) { this.expiryDate = expiryDate; }
+
+    public String getCvv() { return cvv; }
+    public void setCvv(String cvv) { this.cvv = cvv; }
+
+    public Date getPaymentDate() { return paymentDate; }
+    public void setPaymentDate(Date paymentDate) { this.paymentDate = paymentDate; }
+
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
