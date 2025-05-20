@@ -6,11 +6,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/LoginServlet")
-public class login extends HttpServlet {
+public class LoginServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
@@ -26,37 +24,29 @@ public class login extends HttpServlet {
             return;
         }
 
-        // Check user existence
-        if (!UserStore.users.containsKey(username)) {
+        // Check for admin credentials (using file-based validation)
+        if ("admin".equals(username) && UserStore.validateUser(username, "admin", getServletContext())) {
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+            response.sendRedirect("http://localhost:8080/EventTicketSystem/adminpanel.jsp");
+            return;
+        }
+
+        // Check user existence and validate credentials
+        if (!UserStore.userExists(username, getServletContext())) {
             response.sendRedirect("login.jsp?error=invalid");
             return;
         }
 
-        // Hash and validate password
-        String hashedPassword = hashPassword(password);
-        if (!hashedPassword.equals(UserStore.users.get(username))) {
+        // Validate password
+        if (!UserStore.validateUser(username, password, getServletContext())) {
             response.sendRedirect("login.jsp?error=invalid");
             return;
         }
 
-        // Successful login
+        // Successful login for regular users
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
         response.sendRedirect("index.jsp?login=success");
-    }
-
-    // Local hashing method (matches the one in UserStore)
-    private String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("SHA-256 algorithm not found.", e);
-        }
     }
 }
