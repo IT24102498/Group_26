@@ -10,10 +10,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@WebServlet(name = "SeatManagementServlet", value = "/seat-management")
-public class SeatManagementServlet extends HttpServlet {
-    private SeatDAO seatDAO;
-    private ReservationDAO reservationDAO;
+
 
     @Override
     public void init() throws ServletException {
