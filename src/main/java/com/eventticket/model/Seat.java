@@ -2,15 +2,7 @@ package com.eventticket.model;
 
 import java.io.Serializable;
 
-public class Seat implements Serializable {
-    private String id;
-    private String eventId;
-    private String section;
-    private String row;
-    private int number;
-    private String status; // available, reserved, disabled
-    private String type;   // regular, vip
-    private double price;
+
 
     // Constructors
     public Seat() {}
