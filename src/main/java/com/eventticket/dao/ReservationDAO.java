@@ -8,11 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class ReservationDAO {
-    private static final String FILE_PATH = "reservations.txt";
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    private Map<String, Reservation> reservations;
-    private SeatDAO seatDAO;
+p
 
     public ReservationDAO(SeatDAO seatDAO) {
         this.reservations = new HashMap<>();
