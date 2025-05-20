@@ -16,13 +16,9 @@ public class ProcessPayment extends HttpServlet {
         String expDate = req.getParameter("expiryDate");
         String cvv = req.getParameter("cvv");
         String cardHolderName = req.getParameter("cardName");
-        String username = req.getParameter("username");
-        String email = req.getParameter("email");
 
         String fileName = "E:\\UNI\\eventticket\\PaymentDetails.txt";
         try (FileWriter fw = new FileWriter(fileName)) {
-            fw.write("Username: " + username + "\n");
-            fw.write("Email: " + email + "\n");
             fw.write("Card Number: " + cn + "\n");
             fw.write("Expire Date: " + expDate + "\n");
             fw.write("CVV: " + cvv + "\n");
