@@ -127,14 +127,5 @@ public class EventDAO {
                 .orElse(null);
     }
 
-    public void updateEvent(Event updatedEvent) {
-        // Remove the old version if it exists
-        eventQueue.removeIf(event -> event.getId().equals(updatedEvent.getId()));
-
-        // Add the updated event if it's in the future
-        if (updatedEvent.getDateTime().isAfter(LocalDateTime.now())) {
-            eventQueue.add(updatedEvent);
-            saveEventsToFile();
         }
-    }
-}
+
