@@ -1,7 +1,6 @@
 package com.eventticket.model;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class Payment {
     private String paymentId;
@@ -17,16 +16,12 @@ public class Payment {
     private String status;
 
     // Constructors
-    public Payment() {
-        this.paymentId = UUID.randomUUID().toString();
-        this.paymentDate = new Date();
-        this.status = "PENDING";
-    }
+    public Payment() {}
 
     public Payment(String paymentId, String eventId, String eventName, String userId, double amount,
                    String cardNumber, String cardHolderName, String expiryDate, String cvv,
                    Date paymentDate, String status) throws IllegalArgumentException {
-        this.paymentId = paymentId != null ? paymentId : UUID.randomUUID().toString();
+        this.paymentId = paymentId;
         this.eventId = eventId;
         this.eventName = eventName;
         this.userId = userId;
@@ -35,15 +30,13 @@ public class Payment {
         setCardHolderName(cardHolderName);
         setExpiryDate(expiryDate);
         setCvv(cvv);
-        this.paymentDate = paymentDate != null ? paymentDate : new Date();
-        this.status = status != null ? status : "PENDING";
+        this.paymentDate = paymentDate;
+        this.status = status;
     }
 
     // Getters and Setters
     public String getPaymentId() { return paymentId; }
-    public void setPaymentId(String paymentId) {
-        this.paymentId = paymentId != null ? paymentId : UUID.randomUUID().toString();
-    }
+    public void setPaymentId(String paymentId) { this.paymentId = paymentId; }
 
     public String getEventId() { return eventId; }
     public void setEventId(String eventId) { this.eventId = eventId; }
@@ -110,12 +103,8 @@ public class Payment {
     }
 
     public Date getPaymentDate() { return paymentDate; }
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate != null ? paymentDate : new Date();
-    }
+    public void setPaymentDate(Date paymentDate) { this.paymentDate = paymentDate; }
 
     public String getStatus() { return status; }
-    public void setStatus(String status) {
-        this.status = status != null ? status : "PENDING";
-    }
+    public void setStatus(String status) { this.status = status; }
 }

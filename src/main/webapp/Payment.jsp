@@ -1,10 +1,9 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ page import="java.text.DecimalFormat" %>
 <%
     // Get parameters from URL
     String eventId = request.getParameter("eventId");
     String eventName = request.getParameter("eventName");
-    String priceParam = request.getParameter("price");
+    String price = request.getParameter("price");
     String date = request.getParameter("date");
     String location = request.getParameter("location");
 
@@ -12,28 +11,11 @@
     String username = (String) session.getAttribute("username");
     String email = (String) session.getAttribute("email");
 
-    // Get error messages from request (set by ProcessPayment servlet)
-    String expiryDateError = (String) request.getAttribute("expiryDateError");
-    String cvvError = (String) request.getAttribute("cvvError");
-    String generalError = (String) request.getAttribute("generalError");
-
-    // Sanitize inputs to prevent XSS
-    eventId = (eventId != null) ? eventId.replaceAll("[<>\"&']", "") : "";
-    eventName = (eventName != null) ? eventName.replaceAll("[<>\"&']", "") : "Music Event";
-    date = (date != null) ? date.replaceAll("[<>\"&']", "") : "Coming Soon";
-    location = (location != null) ? location.replaceAll("[<>\"&']", "") : "Venue TBD";
-
-    // Parse price safely
-    double price = 0.0;
-    try {
-        price = (priceParam != null) ? Double.parseDouble(priceParam) : 0.0;
-    } catch (NumberFormatException e) {
-        price = 0.0;
-    }
-    DecimalFormat df = new DecimalFormat("#.00");
-    String formattedPrice = df.format(price);
-    double ticketPrice = (price > 20) ? price - 20 : price;
-    String formattedTicketPrice = df.format(ticketPrice);
+    // Set default values if parameters are null
+    if (eventName == null) eventName = "Music Event";
+    if (price == null) price = "0";
+    if (date == null) date = "Coming Soon";
+    if (location == null) location = "Venue TBD";
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -88,20 +70,13 @@
                 <div class="bg-white rounded-xl shadow-lg p-8">
                     <h2 class="text-2xl font-bold mb-6">Payment Information</h2>
 
-                    <!-- Display General Error (if any) -->
-                    <% if (generalError != null) { %>
-                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-                        <p><%= generalError.replaceAll("[<>\"&']", "") %></p>
-                    </div>
-                    <% } %>
-
                     <form id="payment-form" action="ProcessPayment" method="POST">
                         <!-- Hidden Fields -->
                         <input type="hidden" name="eventId" value="<%= eventId %>">
                         <input type="hidden" name="eventName" value="<%= eventName %>">
-                        <input type="hidden" name="price" value="<%= formattedPrice %>">
-                        <input type="hidden" name="username" value="<%= username != null ? username.replaceAll("[<>\"&']", "") : "" %>">
-                        <input type="hidden" name="email" value="<%= email != null ? email.replaceAll("[<>\"&']", "") : "" %>">
+                        <input type="hidden" name="price" value="<%= price %>">
+                        <input type="hidden" name="username" value="<%= username %>">
+                        <input type="hidden" name="email" value="<%= email %>">
 
                         <!-- Card Details -->
                         <div class="mb-6">
@@ -122,18 +97,12 @@
                                 <input type="text" id="expiry-date" name="expiryDate" placeholder="MM/YY"
                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
                                        required pattern="\d{2}/\d{2}">
-                                <% if (expiryDateError != null) { %>
-                                <p class="text-red-500 text-sm mt-1"><%= expiryDateError.replaceAll("[<>\"&']", "") %></p>
-                                <% } %>
                             </div>
                             <div>
                                 <label for="cvv" class="block text-gray-700 font-medium mb-2">CVV</label>
                                 <input type="text" id="cvv" name="cvv" placeholder="123"
                                        class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-500"
-                                       required pattern="\d{3}">
-                                <% if (cvvError != null) { %>
-                                <p class="text-red-500 text-sm mt-1"><%= cvvError.replaceAll("[<>\"&']", "") %></p>
-                                <% } %>
+                                       required pattern="\d{3,4}">
                             </div>
                         </div>
 
@@ -146,7 +115,7 @@
 
                         <!-- Submit Button -->
                         <button type="submit" class="w-full bg-purple-900 text-white py-3 px-4 rounded-lg hover:bg-purple-800 transition duration-300 font-bold text-lg">
-                            Complete Payment - $<span id="total-amount"><%= formattedPrice %></span>
+                            Complete Payment - $<span id="total-amount"><%= price %></span>
                         </button>
                     </form>
                 </div>
@@ -172,7 +141,7 @@
                         <h3 class="font-semibold mb-2">Ticket Details</h3>
                         <div class="flex justify-between mb-2">
                             <span>General Admission (x1)</span>
-                            <span>$<%= formattedTicketPrice %></span>
+                            <span>$<%= Integer.parseInt(price) - 20 %></span>
                         </div>
                         <div class="flex justify-between mb-2">
                             <span>Service Fee</span>
@@ -188,7 +157,7 @@
                     <div class="border-t border-gray-200 pt-4 mb-4">
                         <div class="flex justify-between font-bold text-lg">
                             <span>Total</span>
-                            <span>$<%= formattedPrice %></span>
+                            <span>$<%= price %></span>
                         </div>
                     </div>
                 </div>
@@ -229,13 +198,13 @@
             </div>
         </div>
         <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-            <p>© 2025 MusicTix. All rights reserved.</p>
+            <p>&copy; 2023 MusicTix. All rights reserved.</p>
         </div>
     </div>
 </footer>
 
 <script>
-    // Client-side validation
+    // Simple form validation
     document.getElementById('payment-form').addEventListener('submit', function(e) {
         const cardNumber = document.getElementById('card-number').value;
         const expiryDate = document.getElementById('expiry-date').value;
@@ -248,30 +217,6 @@
             return false;
         }
 
-        // Basic client-side validation for expiry date
-        const expiryPattern = /^\d{2}\/\d{2}$/;
-        if (!expiryPattern.test(expiryDate)) {
-            e.preventDefault();
-            alert('Expiry date must be in MM/YY format');
-            return false;
-        }
-
-        const [month, year] = expiryDate.split('/');
-        const monthNum = parseInt(month);
-        if (monthNum < 1 || monthNum > 12) {
-            e.preventDefault();
-            alert('Month must be between 01 and 12');
-            return false;
-        }
-
-        // Basic CVV validation
-        if (!/^\d{3}$/.test(cvv)) {
-            e.preventDefault();
-            alert('CVV must be exactly 3 digits');
-            return false;
-        }
-
-        // Server-side validation will handle detailed checks
         return true;
     });
 </script>
