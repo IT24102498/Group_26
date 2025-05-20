@@ -7,20 +7,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 @WebServlet("/RegisterServlet")
-public class register extends HttpServlet {
+public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
         String username = request.getParameter("username");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+
+        System.out.println("Register attempt: username=" + username + ", email=" + email);
 
         response.setContentType("text/plain;charset=UTF-8");
 
@@ -28,43 +27,33 @@ public class register extends HttpServlet {
             // Validate input fields
             if (username == null || email == null || password == null ||
                     username.isEmpty() || email.isEmpty() || password.isEmpty()) {
+                System.out.println("Registration failed: missing fields");
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 out.print("All fields are required.");
                 return;
             }
 
             // Check if username already exists
-            if (UserStore.users.containsKey(username)) {
+            if (UserStore.userExists(username, getServletContext())) {
+                System.out.println("Registration failed: username already taken");
                 response.sendRedirect("register.jsp?error=Username is already taken.");
                 return;
             }
 
-            // Hash and store password
-            String hashedPassword = hashPassword(password);
-            UserStore.users.put(username, hashedPassword);
+            // Store user with plaintext password and email
+            UserStore.addUser(username, password, email, getServletContext());
 
-            // Store username and email in session for access during payment
+            // Store username and email in session
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
             session.setAttribute("email", email);
 
-            // Redirect to payment page (update URL if you use a servlet or JSP)
-            //response.sendRedirect("processPayment.jsp");
-        }
-    }
-
-    // Hash password with SHA-256
-    private String hashPassword(String password) {
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = md.digest(password.getBytes());
-            StringBuilder sb = new StringBuilder();
-            for (byte b : hashBytes) {
-                sb.append(String.format("%02x", b));
-            }
-            return sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException("Hashing algorithm not found.");
+            System.out.println("Registration successful: redirecting to login.jsp");
+            response.sendRedirect("login.jsp?regsuccess=Registration successful! Please login.");
+        } catch (Exception e) {
+            System.err.println("Registration error: " + e.getMessage());
+            e.printStackTrace();
+            response.sendRedirect("register.jsp?error=Registration failed due to server error.");
         }
     }
 }
