@@ -10,7 +10,7 @@
 
     // Set default values if parameters are null
     if (eventName == null) eventName = "Music Event";
-    if (amount == null) amount = "0";
+    if (amount == null) amount = "0" ;
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,10 +40,11 @@
     <div class="max-w-3xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
         <!-- Confirmation Header -->
         <div class="bg-gradient-to-r from-purple-800 to-indigo-900 text-white p-8 text-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
-            <h1 class="text-3xl font-bold mb-2">Booking Confirmed!</h1>
+            <h1 class="text-3xl font-bold mb-2">Payment Successful!</h1>
             <p class="text-lg">Thank you for your purchase. Your tickets are confirmed.</p>
         </div>
 
@@ -53,11 +54,13 @@
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <p class="text-gray-600">Transaction ID</p>
-                    <p class="font-medium"><%= transactionId %></p>
+                    <p class="font-medium"><%= transactionId %>
+                    </p>
                 </div>
                 <div>
                     <p class="text-gray-600">Date</p>
-                    <p class="font-medium"><%= new java.util.Date() %></p>
+                    <p class="font-medium"><%= new java.util.Date() %>
+                    </p>
                 </div>
                 <div>
                     <p class="text-gray-600">Payment Method</p>
@@ -74,9 +77,11 @@
         <div class="p-8 border-b border-gray-200">
             <h2 class="text-xl font-bold mb-4">Event Details</h2>
             <div class="flex items-start">
-                <img src="https://via.placeholder.com/120x120" alt="<%= eventName %>" class="w-24 h-24 object-cover rounded-lg mr-6">
+                <img src="https://via.placeholder.com/120x120" alt="<%= eventName %>"
+                     class="w-24 h-24 object-cover rounded-lg mr-6">
                 <div>
-                    <h3 class="text-xl font-bold"><%= eventName %></h3>
+                    <h3 class="text-xl font-bold"><%= eventName %>
+                    </h3>
                     <p class="text-gray-600 mt-2">Date: July 8, 2023</p>
                     <p class="text-gray-600">Time: 8:00 PM</p>
                     <p class="text-gray-600">Venue: Blue Note Club, Chicago</p>
@@ -103,7 +108,7 @@
                 </div>
                 <div class="flex justify-between pt-4 border-t border-gray-200 font-bold text-lg">
                     <span>Total</span>
-                    <span>$<%= amount %></span>
+                    <span>$<%= request.getParameter("price") %></span>
                 </div>
             </div>
         </div>
@@ -111,7 +116,9 @@
         <!-- Download/Print Buttons -->
         <div class="bg-gray-50 p-6 flex justify-center space-x-4">
             <button class="bg-purple-900 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition duration-300">
-                Download Tickets
+                <a href="ticket.jsp" class="text-purple-900 font-medium hover:text-purple-700">
+                    Download Tickets
+                </a>
             </button>
             <button class="bg-white text-purple-900 border border-purple-900 px-6 py-2 rounded-lg hover:bg-purple-50 transition duration-300">
                 Print Confirmation

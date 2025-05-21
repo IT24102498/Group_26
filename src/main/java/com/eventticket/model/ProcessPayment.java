@@ -79,7 +79,8 @@ public class ProcessPayment extends HttpServlet {
             }
 
             // Redirect to confirmation page with paymentId
-            resp.sendRedirect("confirmation.jsp?paymentId=" + payment.getPaymentId());
+            resp.sendRedirect("confirmation.jsp?paymentId=" + payment.getPaymentId() + "&price=" + price);
+
 
         } catch (IllegalArgumentException e) {
             // Handle validation errors from Payment class
@@ -97,4 +98,5 @@ public class ProcessPayment extends HttpServlet {
             req.getRequestDispatcher("payment.jsp").forward(req, resp);
         }
     }
+
 }
