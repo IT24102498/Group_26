@@ -66,37 +66,11 @@ public class EventDAO {
         return merged;
     }
 
-    //to get sorted events
-    public List<Event> getSortedEvents(String sortBy) {
-        Comparator<Event> comparator;
-        switch (sortBy.toLowerCase()) {
-            case "name":
-                comparator = Comparator.comparing(Event::getName);
-                break;
-            case "price":
-                comparator = Comparator.comparing(Event::getPrice);
-                break;
-            case "date":
-            default:
-                comparator = Comparator.comparing(Event::getDateTime);
-                break;
-        }
-        return mergeSort(new ArrayList<>(events), comparator);
-    }
 
     public List<Event> getAllEvents() {
         return new ArrayList<>(events);
     }
 
-    public List<Event> searchEvents(String query) {
-        String lowerQuery = query.toLowerCase();
-        return events.stream()
-                .filter(event -> event.getName().toLowerCase().contains(lowerQuery) ||
-                        event.getDescription().toLowerCase().contains(lowerQuery) ||
-                        event.getVenue().toLowerCase().contains(lowerQuery) ||
-                        event.getCategory().toLowerCase().contains(lowerQuery))
-                .collect(Collectors.toList());
-    }
 
     private Event stringToEvent(String line) {
         try {
@@ -109,16 +83,11 @@ public class EventDAO {
                     parts[4], Double.parseDouble(parts[5]),
                     Integer.parseInt(parts[6]), parts[7], parts[8]
             );
-        } catch (Exception e) {
-            System.err.println("Error parsing event: " + e.getMessage());
+        }
+        catch (Exception e) {
+            System.err.println("Error " + e.getMessage());
             return null;
         }
     }
 
-    public Event findEventById(String id) {
-        return events.stream()
-                .filter(event -> event.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
 }
