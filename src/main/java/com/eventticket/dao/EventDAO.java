@@ -5,7 +5,6 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EventDAO {
     private static final String RESOURCE_PATH = "/events.txt";
