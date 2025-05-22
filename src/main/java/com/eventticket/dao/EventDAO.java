@@ -28,11 +28,60 @@ public class EventDAO {
                     events.add(event);
                 }
             }
-            // Sort by date by default
-            events.sort(Comparator.comparing(Event::getDateTime));
+            //sort by date using merge sort
+            events = mergeSort(events, Comparator.comparing(Event::getDateTime));
         } catch (IOException e) {
             System.err.println("Error loading events from resources: " + e.getMessage());
         }
+    }
+
+    //merge sort for sorting
+    private List<Event> mergeSort(List<Event> events, Comparator<Event> comparator) {
+        if (events.size() <= 1) {
+            return new ArrayList<>(events);
+        }
+
+        int mid = events.size() / 2;
+        List<Event> left = mergeSort(events.subList(0, mid), comparator);
+        List<Event> right = mergeSort(events.subList(mid, events.size()), comparator);
+
+        return merge(left, right, comparator);
+    }
+
+    private List<Event> merge(List<Event> left, List<Event> right, Comparator<Event> comparator) {
+        List<Event> merged = new ArrayList<>();
+        int i = 0, j = 0;
+
+        while (i < left.size() && j < right.size()) {
+            if (comparator.compare(left.get(i), right.get(j)) <= 0) {
+                merged.add(left.get(i++));
+            } else {
+                merged.add(right.get(j++));
+            }
+        }
+
+        merged.addAll(left.subList(i, left.size()));
+        merged.addAll(right.subList(j, right.size()));
+
+        return merged;
+    }
+
+    //to get sorted events
+    public List<Event> getSortedEvents(String sortBy) {
+        Comparator<Event> comparator;
+        switch (sortBy.toLowerCase()) {
+            case "name":
+                comparator = Comparator.comparing(Event::getName);
+                break;
+            case "price":
+                comparator = Comparator.comparing(Event::getPrice);
+                break;
+            case "date":
+            default:
+                comparator = Comparator.comparing(Event::getDateTime);
+                break;
+        }
+        return mergeSort(new ArrayList<>(events), comparator);
     }
 
     public List<Event> getAllEvents() {
