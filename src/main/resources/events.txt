@@ -1,0 +1,30 @@
+//event id , event name ,description, date and time, venue,price,ticket count, image url link , event category
+
+event1,Summer Music Festival,The biggest music festival of the summer featuring top artists from around the world,2025-06-15T18:00:00,Central Park Canada ,99.00,1000,https://travelfreak.com/wp-content/uploads/2018/04/summer-music-festivals-1.jpg,Festival
+
+event2,Jazz Night,An intimate evening with world-renowned jazz musicians in a classic club setting,2025-07-08T20:00:00,Blue Note Club Chicago,65.00,1000,https://cloudinary-assets.dostuffmedia.com/res/dostuff-media/image/upload/event-9199789/1548711682.jpg,Concert
+
+event3,EDM Extravaganza,The most electrifying EDM experience with stunning visuals and pyrotechnics,2025-08-22T22:00:00,Stadium Arena Los Angeles,120.00,1000,https://www.indonesia.travel/content/dam/indtravelrevamp/en/trip-ideas/attend-dwp-2019-in-jakarta-make-sure-to-visit-these-places-around-the-event/image4.jpg,Concert
+
+event4,Classical Symphony,Experience the timeless beauty of classical masterpieces performed top musicians,2025-09-05T19:30:00,Carnegie Hall New York,85.00,1000,https://rare-gallery.com/uploads/posts/563031-concerts-music.jpg,Orchestra
+
+event5,Indie Showcase,Discover the hottest up-and-coming indie artists before they hit the big time,2025-07-29T20:00:00,The Bowery Ballroom, NYC,45.00,1000,https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80,Showcase
+
+event6,Country Roads Tour,Night of the hearts the biggest names in country music come together for this special tour event,2025-08-12T19:00:00,Grand Ole Opry Nashville,75.00,1000,https://d1e1dwdex1ps42.cloudfront.net/attachments/fg8hodpn3o4c3k8uypflubhb-country-roads-entertainers-group-shot.full.jpg,Tour
+
+event7,Hip Hop Block Party,A celebration of hip hop culture with performances, DJ sets, and breakdancing battles,2025-09-18T18:00:00,Brooklyn Mirage NYC,60.00,1000,https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80,Festival
+
+event8,Rock Legends Live,Feel the energy as these Iconic rock bands from the 70s and 80s reunite for one night only,2025-10-03T20:00:00,Madison Square Garden NYC,150.00,1000,https://images.unsplash.com/photo-1499364615650-ec38552f4f34?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80,Concert
+
+event9,Electronic Beats,A 12-hour electronic music marathon featuring underground and mainstream DJs,2025-11-11T16:00:00,Warehouse District Miami,80.00,1000,https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80,Festival
+
+event10,Acoustic Sessions,Stripped-down performances from your favorite artists in an intimate setting,2025-12-07T19:30:00,The Listening Room Austin,55.00,1000,https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80,Intimate
+
+event11,Pop Sensations Live,The hottest pop stars of today performing their biggest hits in one spectacular show,2025-10-15T20:00:00,Staples Center Los Angeles,110.00,1000,https://i.ytimg.com/vi/iGChYsYcsuI/maxresdefault.jpg,Concert
+
+event12,Reggae Sunset,Chill vibes and reggae rhythms as the sun sets over the ocean with legendary artists,2025-09-30T17:00:00,Virginia Key Beach Miami,70.00,1000,https://th.bing.com/th/id/OIP.EvE5pGPYdTCVtdHCxCEIIwHaE6?rs=1&pid=ImgDetMain,Festival
+
+event13,Techno Warehouse,An all-night techno experience in an authentic warehouse setting with international DJs,2025-11-25T22:00:00,Industrial District Detroit,50.00,1000,https://th.bing.com/th/id/R.076ffcd807335cbc7962589f7ce45d13?rik=lrEWE1XZgvWUDQ&pid=ImgRaw&r=0,Rave
+
+event14,Soul & Blues Festival,Celebrate the roots of American music with soulful performances and authentic blues,2025-10-28T18:00:00,Memphis Riverfront Tennessee,65.00,1000,https://images.unsplash.com/photo-1501612780327-45045538702b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80,Festival
+
