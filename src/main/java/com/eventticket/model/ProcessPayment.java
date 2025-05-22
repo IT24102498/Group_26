@@ -14,6 +14,23 @@ public class ProcessPayment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
+            // Check for delete action
+            String action = req.getParameter("action");
+            String paymentId = req.getParameter("paymentId");
+
+            if ("delete".equalsIgnoreCase(action) && paymentId != null && !paymentId.trim().isEmpty()) {
+                // Handle deletion
+                try {
+                    Payment.delete(paymentId);
+                    resp.sendRedirect("confirmation.jsp?message=Payment+deleted+successfully");
+                } catch (IOException e) {
+                    req.setAttribute("generalError", "Error deleting payment: " + e.getMessage());
+                    req.getRequestDispatcher("payment.jsp").forward(req, resp);
+                }
+                return;
+            }
+
+            // Existing payment creation logic
             // Retrieve form parameters
             String eventId = req.getParameter("eventId");
             String eventName = req.getParameter("eventName");
@@ -56,8 +73,7 @@ public class ProcessPayment extends HttpServlet {
             payment.setPaymentDate(new Date());
             payment.setStatus("SUCCESS"); // Assume payment is successful for demo
 
-            // WARNING: Storing payment details in a plain text file is insecure and not PCI DSS compliant.
-            // In a production environment, use a secure database or payment gateway integration.
+            //CRUD : create
             String fileName = "E:\\UNI\\eventticket\\PaymentDetails.txt";
             try (FileWriter fw = new FileWriter(fileName, true)) { // Append mode to avoid overwriting
                 fw.write("Payment ID: " + payment.getPaymentId() + "\n");
@@ -81,7 +97,6 @@ public class ProcessPayment extends HttpServlet {
             // Redirect to confirmation page with paymentId
             resp.sendRedirect("confirmation.jsp?paymentId=" + payment.getPaymentId() + "&price=" + price);
 
-
         } catch (IllegalArgumentException e) {
             // Handle validation errors from Payment class
             String message = e.getMessage();
@@ -98,5 +113,4 @@ public class ProcessPayment extends HttpServlet {
             req.getRequestDispatcher("payment.jsp").forward(req, resp);
         }
     }
-
 }

@@ -115,26 +115,30 @@
 
         <!-- Download/Print Buttons -->
         <div class="bg-gray-50 p-6 flex justify-center space-x-4">
-            <button class="bg-purple-900 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition duration-300">
-                <a href="ticket.jsp" class="text-purple-900 font-medium hover:text-purple-700">
-                    Download Tickets
-                </a>
-            </button>
+            <form action="ProcessPayment" method="post">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="paymentId" value="<%= request.getParameter("paymentId") != null ? request.getParameter("paymentId") : "" %>">
+                <button type="submit" class="bg-purple-900 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition duration-300">
+                    <a href="index.jsp" >
+                        Refund Payment
+                    </a>
+                </button>
+            </form>
             <button class="bg-white text-purple-900 border border-purple-900 px-6 py-2 rounded-lg hover:bg-purple-50 transition duration-300">
                 Print Confirmation
             </button>
         </div>
-    </div>
 
-    <!-- Additional Actions -->
-    <div class="max-w-3xl mx-auto mt-8 flex justify-between">
-        <a href="events.jsp" class="text-purple-900 font-medium hover:text-purple-700">
-            ← Back to Events
-        </a>
-        <a href="index.jsp" class="text-purple-900 font-medium hover:text-purple-700">
-            Go to Home →
-        </a>
-    </div>
+        <!-- Additional Actions -->
+        <div class="max-w-3xl mx-auto mt-8 flex justify-between">
+            <a href="events.jsp" class="text-purple-900 font-medium hover:text-purple-700">
+                ← Back to Events
+            </a>
+            <a href="index.jsp" class="text-purple-900 font-medium hover:text-purple-700">
+                Go to Home →
+            </a>
+
+        </div>
 </main>
 
 <!-- Footer -->
