@@ -5,136 +5,88 @@ import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class EventDAO {
-    private static final String FILE_PATH = "events.txt";
+    private static final String RESOURCE_PATH = "/events.txt";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    private Queue<Event> eventQueue;
+    private List<Event> events;
 
     public EventDAO() {
-        this.eventQueue = new PriorityQueue<>(
-                Comparator.comparing(Event::getDateTime)
-        );
-        loadEventsFromFile();
-        removePastEvents();
+        this.events = new ArrayList<>();
+        loadEventsFromResource();
     }
 
-    private void loadEventsFromFile() {
-        File file = new File(FILE_PATH);
-        if (!file.exists()) {
-            return;
-        }
+    private void loadEventsFromResource() {
+        try (InputStream is = getClass().getResourceAsStream(RESOURCE_PATH);
+             BufferedReader reader = new BufferedReader(new InputStreamReader(is))) {
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
                 Event event = stringToEvent(line);
-                if (event != null) {
-                    eventQueue.add(event);
+                if (event != null && event.getDateTime().isAfter(LocalDateTime.now())) {
+                    events.add(event);
                 }
             }
+            //sort by date using merge sort
+            events = mergeSort(events, Comparator.comparing(Event::getDateTime));
         } catch (IOException e) {
-            System.err.println("Error loading events: " + e.getMessage());
+            System.err.println("Error loading events from resources: " + e.getMessage());
         }
     }
 
-    private void saveEventsToFile() {
-        try (PrintWriter out = new PrintWriter(new FileWriter(FILE_PATH))) {
-            for (Event event : eventQueue) {
-                out.println(eventToString(event));
+    //merge sort for sorting
+    private List<Event> mergeSort(List<Event> events, Comparator<Event> comparator) {
+        if (events.size() <= 1) {
+            return new ArrayList<>(events);
+        }
+
+        int mid = events.size() / 2;
+        List<Event> left = mergeSort(events.subList(0, mid), comparator);
+        List<Event> right = mergeSort(events.subList(mid, events.size()), comparator);
+
+        return merge(left, right, comparator);
+    }
+
+    private List<Event> merge(List<Event> left, List<Event> right, Comparator<Event> comparator) {
+        List<Event> merged = new ArrayList<>();
+        int i = 0, j = 0;
+
+        while (i < left.size() && j < right.size()) {
+            if (comparator.compare(left.get(i), right.get(j)) <= 0) {
+                merged.add(left.get(i++));
+            } else {
+                merged.add(right.get(j++));
             }
-        } catch (IOException e) {
-            System.err.println("Error saving events: " + e.getMessage());
         }
+
+        merged.addAll(left.subList(i, left.size()));
+        merged.addAll(right.subList(j, right.size()));
+
+        return merged;
     }
 
-    private void removePastEvents() {
-        LocalDateTime now = LocalDateTime.now();
-        eventQueue.removeIf(event -> event.getDateTime().isBefore(now));
-        saveEventsToFile(); // Update the file after removal
-    }
-
-    public void saveEvent(Event event) {
-        if (event.getDateTime().isAfter(LocalDateTime.now())) {
-            eventQueue.add(event);
-            saveEventsToFile();
-        }
-    }
 
     public List<Event> getAllEvents() {
-        // Return a sorted list of future events
-        return eventQueue.stream()
-                .sorted(Comparator.comparing(Event::getDateTime))
-                .collect(Collectors.toList());
+        return new ArrayList<>(events);
     }
 
-    public List<Event> searchEvents(String query) {
-        String lowerQuery = query.toLowerCase();
-        return eventQueue.stream()
-                .filter(event ->
-                        event.getName().toLowerCase().contains(lowerQuery) ||
-                                event.getDescription().toLowerCase().contains(lowerQuery) ||
-                                event.getVenue().toLowerCase().contains(lowerQuery) ||
-                                event.getCategory().toLowerCase().contains(lowerQuery))
-                .sorted(Comparator.comparing(Event::getDateTime))
-                .collect(Collectors.toList());
-    }
-
-    private String eventToString(Event event) {
-        return String.join(",",
-                event.getId(),
-                event.getName(),
-                event.getDescription(),
-                event.getDateTime().format(DATE_FORMATTER),
-                event.getVenue(),
-                String.valueOf(event.getPrice()),
-                String.valueOf(event.getAvailableTickets()),
-                event.getImagePath(),
-                event.getCategory()
-        );
-    }
 
     private Event stringToEvent(String line) {
         try {
             String[] parts = line.split(",");
-            if (parts.length < 9) {
-                return null;
-            }
+            if (parts.length < 9) return null;
 
-            Event event = new Event();
-            event.setId(parts[0]);
-            event.setName(parts[1]);
-            event.setDescription(parts[2]);
-            event.setDateTime(LocalDateTime.parse(parts[3], DATE_FORMATTER));
-            event.setVenue(parts[4]);
-            event.setPrice(Double.parseDouble(parts[5]));
-            event.setAvailableTickets(Integer.parseInt(parts[6]));
-            event.setImagePath(parts[7]);
-            event.setCategory(parts[8]);
-
-            return event;
-        } catch (Exception e) {
-            System.err.println("Error parsing event: " + e.getMessage());
+            return new Event(
+                    parts[0], parts[1], parts[2],
+                    LocalDateTime.parse(parts[3], DATE_FORMATTER),
+                    parts[4], Double.parseDouble(parts[5]),
+                    Integer.parseInt(parts[6]), parts[7], parts[8]
+            );
+        }
+        catch (Exception e) {
+            System.err.println("Error " + e.getMessage());
             return null;
         }
     }
 
-    public Event findEventById(String id) {
-        return eventQueue.stream()
-                .filter(event -> event.getId().equals(id))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public void updateEvent(Event updatedEvent) {
-        // Remove the old version if it exists
-        eventQueue.removeIf(event -> event.getId().equals(updatedEvent.getId()));
-
-        // Add the updated event if it's in the future
-        if (updatedEvent.getDateTime().isAfter(LocalDateTime.now())) {
-            eventQueue.add(updatedEvent);
-            saveEventsToFile();
-        }
-    }
 }

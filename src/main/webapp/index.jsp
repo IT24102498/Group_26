@@ -41,23 +41,17 @@
 
 <!-- Main Content Container -->
 <div class="container mx-auto px-4">
-
-    <!-- Latest Events - Removed underline and changed to gray -->
     <section class="py-4">
-        <h2 class="text-4xl font-bold mb-6 text-center text-gray-700">
-            Latest Events
-        </h2>
+        <h2 class="text-4xl font-bold mb-6 text-center text-gray-700">Latest Events</h2>
 
-        <!-- Concerts Subsection -->
+        <!-- Concerts Section -->
         <div class="mb-16">
             <h3 class="text-3xl font-bold mb-6 text-center text-gray-500">Concerts</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-                <!-- Summer Music Festival Card -->
+                <!-- Event Cards -->
+                <!-- Summer Music Festival -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden event-card">
-                    <img src="https://travelfreak.com/wp-content/uploads/2018/04/summer-music-festivals-1.jpg"
-                         alt="Summer Festival"
-                         class="w-full h-48 object-cover"
-                         style="opacity: 1;">
+                    <img src="https://travelfreak.com/wp-content/uploads/2018/04/summer-music-festivals-1.jpg" alt="Summer Festival" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Summer Music Festival</h3>
                         <p class="text-gray-600 mb-4">June 15, 2025 • Central Park</p>
@@ -69,12 +63,9 @@
                     </div>
                 </div>
 
-                <!-- Jazz Night Card -->
+                <!-- Jazz Night -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden event-card">
-                    <img src="https://cloudinary-assets.dostuffmedia.com/res/dostuff-media/image/upload/event-9199789/1548711682.jpg"
-                         alt="Jazz Night"
-                         class="w-full h-48 object-cover"
-                         style="opacity: 1;">
+                    <img src="https://cloudinary-assets.dostuffmedia.com/res/dostuff-media/image/upload/event-9199789/1548711682.jpg" alt="Jazz Night" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Jazz Night</h3>
                         <p class="text-gray-600 mb-4">July 8, 2025 • Blue Note Club</p>
@@ -86,12 +77,9 @@
                     </div>
                 </div>
 
-                <!-- EDM Extravaganza Card -->
+                <!-- EDM Extravaganza -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden event-card">
-                    <img src="https://www.indonesia.travel/content/dam/indtravelrevamp/en/trip-ideas/attend-dwp-2019-in-jakarta-make-sure-to-visit-these-places-around-the-event/image4.jpg"
-                         alt="EDM Event"
-                         class="w-full h-48 object-cover"
-                         style="opacity: 1;">
+                    <img src="https://www.indonesia.travel/content/dam/indtravelrevamp/en/trip-ideas/attend-dwp-2019-in-jakarta-make-sure-to-visit-these-places-around-the-event/image4.jpg" alt="EDM Event" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">EDM Extravaganza</h3>
                         <p class="text-gray-600 mb-4">August 22, 2025 • Stadium Arena</p>
@@ -105,16 +93,13 @@
             </div>
         </div>
 
-        <!-- Theatre and Family Subsection -->
+        <!-- Theatre and Family Section -->
         <div class="mb-16">
             <h3 class="text-3xl font-bold mb-6 text-center text-gray-500">Theatre and Family</h3>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Broadway Nights Card -->
+                <!-- Broadway Nights -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden event-card">
-                    <img src="https://dtla-weekly.com/wp-content/uploads/2018/01/nob22.jpg"
-                         alt="Broadway"
-                         class="w-full h-48 object-cover"
-                         style="opacity: 1;">
+                    <img src="https://dtla-weekly.com/wp-content/uploads/2018/01/nob22.jpg" alt="Broadway" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Broadway Nights</h3>
                         <p class="text-gray-600 mb-4">September 5, 2025 • Majestic Theatre</p>
@@ -126,12 +111,9 @@
                     </div>
                 </div>
 
-                <!-- Family Fun Day Card -->
+                <!-- Family Fun Day -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden event-card">
-                    <img src="https://www.dynamicevents.ie/static/9adf25db13f7ebab649212e11e5eb8dd/9a51e/family_fun_day2.jpg"
-                         alt="Family Event"
-                         class="w-full h-48 object-cover"
-                         style="opacity: 1;">
+                    <img src="https://www.dynamicevents.ie/static/9adf25db13f7ebab649212e11e5eb8dd/9a51e/family_fun_day2.jpg" alt="Family Event" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Family Fun Day</h3>
                         <p class="text-gray-600 mb-4">October 12, 2025 • City Park</p>
@@ -143,12 +125,9 @@
                     </div>
                 </div>
 
-                <!-- Puppet Show Spectacular Card -->
+                <!-- Puppet Show -->
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden event-card">
-                    <img src="https://i.ytimg.com/vi/JYV39U7Vblw/maxresdefault.jpg"
-                         alt="Puppet Show"
-                         class="w-full h-48 object-cover"
-                         style="opacity: 1;">
+                    <img src="https://i.ytimg.com/vi/JYV39U7Vblw/maxresdefault.jpg" alt="Puppet Show" class="w-full h-48 object-cover">
                     <div class="p-6">
                         <h3 class="text-xl font-bold mb-2">Puppet Show Spectacular</h3>
                         <p class="text-gray-600 mb-4">November 3, 2025 • Community Center</p>
@@ -164,8 +143,7 @@
 
         <!-- Browse Events Button -->
         <div class="text-center mt-8">
-            <a href="events.jsp"
-               class="inline-block bg-purple-900 text-white px-8 py-4 rounded-full font-bold hover:bg-purple-800 transition duration-300 text-lg">
+            <a href="events.jsp" class="inline-block bg-purple-900 text-white px-8 py-4 rounded-full font-bold hover:bg-purple-800 transition duration-300 text-lg">
                 Browse All Events
             </a>
         </div>
@@ -222,24 +200,17 @@
 </footer>
 
 <script>
-    // Wait for DOM to load
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all images
+    document.addEventListener('DOMContentLoaded', function () {
         const images = document.querySelectorAll('img');
-
-        // Check if each image is already loaded
         images.forEach(img => {
             if (img.complete) {
                 img.classList.add('loaded');
             } else {
-                img.addEventListener('load', function() {
+                img.addEventListener('load', function () {
                     this.classList.add('loaded');
                 });
-                img.addEventListener('error', function() {
-                    // Handle broken images
+                img.addEventListener('error', function () {
                     console.error('Image failed to load:', this.src);
-                    // Optionally show a placeholder image
-                    // this.src = 'path/to/placeholder.jpg';
                 });
             }
         });
