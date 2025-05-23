@@ -1,0 +1,204 @@
+:root {
+    --bg-dark: #1A2B23;
+    --bg-overlay: rgba(26, 43, 35, 0.85);
+    --text-main: #E0E0E0;
+    --text-muted: #A0A0A0;
+    --accent-green: #FFD700;
+    --accent-red: #FF4444;
+    --panel-width: 90%;
+    --panel-max: 1000px;
+}
+
+/* reset */
+* { box-sizing: border-box; margin:0; padding:0; }
+
+body {
+    min-height:100vh;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background: url('/images/parking-garage-bg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--text-main);
+}
+
+/* main panel */
+.content-wrapper {
+    width: var(--panel-width);
+    max-width: var(--panel-max);
+    margin: 5% auto;
+    background: var(--bg-overlay);
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+    animation: fadeIn .5s ease-out;
+}
+@keyframes fadeIn {
+    from { opacity:0; transform: translateY(-10px) }
+    to   { opacity:1; transform: translateY(0) }
+}
+
+/* headings */
+h1, h2 {
+    font-weight:300;
+    letter-spacing:.5px;
+    margin-bottom:1rem;
+    color: var(--text-main);
+}
+
+/* controls */
+.controls {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:1.5rem;
+}
+.search-form {
+    display:flex;
+}
+.search-form input {
+    width:240px;
+    padding:0.5rem 0.75rem;
+    border:none;
+    border-radius:4px 0 0 4px;
+    background: #2A3B33; /* Darker green to match image */
+    color: var(--text-main);
+}
+.search-form button {
+    background: #2A3B33;
+    border:none;
+    padding:0 0.75rem;
+    border-radius:0 4px 4px 0;
+    cursor:pointer;
+    color: var(--text-main);
+}
+.search-form button:hover { background: #3A4B43; }
+
+/* add-vehicle button */
+.btn-add-vehicle {
+    background: var(--accent-green);
+    color: #fff;
+    padding: 0.6rem 1rem;
+    border-radius:4px;
+    text-decoration:none;
+    transition: filter .2s;
+}
+.btn-add-vehicle:hover { filter: brightness(0.9); }
+
+/* tables */
+.tbl { width:100%; border-collapse:collapse; margin-top:1rem; }
+.tbl th, .tbl td {
+    padding:0.75rem 1rem;
+    border-bottom:1px solid #3A4B43;
+}
+.tbl th {
+    background: #2A3B33;
+    text-align:left;
+    color: var(--text-main);
+}
+.tbl tr:nth-child(even) {
+    background: rgba(42, 59, 51, 0.3); /* Subtle greenish tint */
+}
+.text-center { text-align:center; }
+
+/* separator */
+.section-divider {
+    height:2px;
+    background: #3A4B43;
+    margin:2rem 0 1rem;
+}
+
+/* icon-links */
+.action-icon {
+    width:28px;
+    height:28px;
+    margin-right:0.5rem;
+    vertical-align:middle;
+    filter: brightness(1.2); /* Slight enhancement for visibility */
+}
+td.actions a:last-child .action-icon {
+    margin-right:0;
+}
+
+/* forms (add/edit) */
+.form-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap:1rem 2rem;
+    margin-bottom:1.5rem;
+}
+.form-row { display:flex; flex-direction:column; }
+.form-row label { margin-bottom:0.4rem; font-size:0.95rem; color: var(--text-main); }
+.form-row input,
+.form-row select,
+.form-row textarea {
+    padding:0.6rem;
+    border:none;
+    border-radius:4px;
+    background: #2A3B33;
+    color: var(--text-main);
+}
+.form-row textarea { min-height:80px; resize:vertical; }
+
+.form-actions {
+    display:flex;
+    gap:1rem;
+    justify-content:flex-end;
+    align-items:center;
+}
+
+/* save / update buttons */
+.btn-save, .btn-update {
+    background: var(--accent-green);
+    color: #fff;
+    padding:0.6rem 1rem;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    transition: filter .2s;
+}
+.btn-save:hover, .btn-update:hover { filter: brightness(0.9); }
+
+/* cancel button */
+.btn-cancel {
+    background: #3A4B43;
+    color: #fff;
+    padding:0.6rem 1rem;
+    border:none;
+    border-radius:4px;
+    cursor:pointer;
+    transition: filter .2s;
+}
+.btn-cancel:hover { filter: brightness(0.9); }
+
+/* back link at bottom */
+.back-wrapper {
+    margin-top:2rem;
+}
+.btn-back {
+    display:inline-block;
+    text-decoration:none;
+    color: #fff;
+    background: #3A4B43;
+    padding:0.5rem 1rem;
+    border-radius:4px;
+    transition: filter .2s;
+}
+.btn-back:hover { filter: brightness(0.9); }
+
+/* Additional print styles */
+@media print {
+    body {
+        background: none !important;
+        color: #000 !important;
+    }
+    .content-wrapper {
+        margin: 0;
+        box-shadow: none;
+        border: 1px solid #000;
+        background: #fff !important;
+        width: 100%;
+        max-width: none;
+    }
+    .btn-print, .btn-back {
+        display: none !important;
+    }
+}

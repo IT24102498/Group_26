@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event Ticket</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('/images/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            color: #E0E0E0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+        .form-container {
+            background: rgba(26, 43, 35, 0.9);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+            width: 100%;
+            max-width: 500px;
+            animation: fadeIn 0.5s ease-out;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h2 {
+            color: #E0E0E0;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-size: 0.95rem;
+            color: #E0E0E0;
+        }
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.6rem;
+            border: 1px solid #3A4B43;
+            border-radius: 4px;
+            background: #2A3B33;
+            color: #E0E0E0;
+            font-size: 1rem;
+        }
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #FFD700;
+            box-shadow: 0 0 0 2px rgba(255, 215, 0, 0.2);
+        }
+        .input-group {
+            position: relative;
+        }
+        .input-group .currency {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 0.6rem;
+            background: #2A3B33;
+            color: #E0E0E0;
+            border: 1px solid #3A4B43;
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+        .input-group input {
+            padding-left: 3rem;
+        }
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s;
+        }
+        .btn-primary {
+            background: #FFD700;
+            color: #1A2B23;
+        }
+        .btn-primary:hover {
+            background: #E6C200;
+        }
+        .btn-secondary {
+            background: #3A4B43;
+            color: #E0E0E0;
+        }
+        .btn-secondary:hover {
+            background: #4A5B53;
+        }
+    </style>
+</head>
+<body>
+<main class="main-content">
+    <div class="form-container">
+        <h2>Add Event Ticket</h2>
+        <form id="ticketForm" th:action="@{/tickets/add}" th:object="${ticket}" method="post" novalidate>
+            <div class="form-group">
+                <label for="attendeeName">Attendee Name*</label>
+                <input type="text" id="attendeeName" th:field="*{attendeeName}" required />
+            </div>
+            <div class="form-group">
+                <label for="eventName">Event Name*</label>
+                <select id="eventName" th:field="*{eventName}" required onchange="calculatePrice()">
+                    <option value="" selected disabled>Select Event</option>
+                    <option value="concert">Concert</option>
+                    <option value="conference">Conference</option>
+                    <option value="sports">Sports Event</option>
+                    <option value="theater">Theater Show</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="ticketType">Ticket Type*</label>
+                <select id="ticketType" th:field="*{ticketType}" required onchange="calculatePrice()">
+                    <option value="" selected disabled>Select Type</option>
+                    <option value="general">General Admission</option>
+                    <option value="vip">VIP</option>
+                    <option value="premium">Premium</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="seatNumber">Seat Number*</label>
+                <input type="text" id="seatNumber" th:field="*{seatNumber}" required />
+            </div>
+            <div class="form-group">
+                <label for="eventDateTime">Event Date & Time*</label>
+                <input type="datetime-local" id="eventDateTime" th:field="*{eventDateTime}" required />
+            </div>
+            <div class="form-group">
+                <label for="ticketPrice">Ticket Price</label>
+                <div class="input-group">
+                    <span class="currency">Rs.</span>
+                    <input type="text" id="ticketPrice" th:field="*{ticketPrice}" readonly />
+                </div>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add Ticket</button>
+                <a th:href="@{/tickets}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</main>
+<script>
+    const TICKET_PRICES = {
+        'concert': { 'general': 1000, 'vip': 2500, 'premium': 4000 },
+        'conference': { 'general': 1500, 'vip': 3000, 'premium': 5000 },
+        'sports': { 'general': 800, 'vip': 2000, 'premium': 3500 },
+        'theater': { 'general': 1200, 'vip': 2800, 'premium': 4500 }
+    };
+
+    function calculatePrice() {
+        const eventName = document.getElementById('eventName').value;
+        const ticketType = document.getElementById('ticketType').value;
+        const price = TICKET_PRICES[eventName]?.[ticketType] || 0;
+        document.getElementById('ticketPrice').value = price.toFixed(2);
+    }
+
+    function initializeForm() {
+        const now = new Date();
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, '0');
+        const day = String(now.getDate()).padStart(2, '0');
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('eventDateTime').value = `${year}-${month}-${day}T${hours}:${minutes}`;
+        calculatePrice();
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeForm);
+    document.getElementById('ticketForm').addEventListener('submit', function(event) {
+        const form = document.getElementById('ticketForm');
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            form.reportValidity();
+        }
+    });
+</script>
+</body>
+</html>
