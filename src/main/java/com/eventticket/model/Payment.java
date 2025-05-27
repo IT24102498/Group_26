@@ -1,6 +1,13 @@
 package com.eventticket.model;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class Payment {
@@ -15,6 +22,7 @@ public class Payment {
     private String cvv;
     private Date paymentDate;
     private String status;
+    private static final String FILE_NAME = "E:\\UNI\\eventticket\\PaymentDetails.txt";
 
     // Constructors
     public Payment() {
@@ -117,5 +125,36 @@ public class Payment {
     public String getStatus() { return status; }
     public void setStatus(String status) {
         this.status = status != null ? status : "PENDING";
+    }
+
+    // CRUD Operation: Delete
+    // Delete: Remove a payment by paymentId from the file
+    public static void delete(String paymentId) throws IOException {
+        if (paymentId == null) {
+            throw new IllegalArgumentException("Payment ID cannot be null");
+        }
+        List<String> fileContent = new ArrayList<>();
+        boolean found = false;
+        try (BufferedReader br = new BufferedReader(new FileReader("D:\\New Text Document.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.startsWith("Payment ID: " + paymentId)) {
+                    found = true;
+                    // Skip the entire payment record
+                    for (int i = 0; i < 11 && br.readLine() != null; i++);
+                } else {
+                    fileContent.add(line);
+                }
+            }
+        }
+        if (!found) {
+            throw new IOException("Payment with ID " + paymentId + " not found");
+        }
+        // Rewrite the file without the deleted record
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME))) {
+            for (String line : fileContent) {
+                bw.write(line + "\n");
+            }
+        }
     }
 }
