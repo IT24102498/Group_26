@@ -27,6 +27,7 @@
             <a href="events.jsp" class="hover:text-purple-300">Events</a>
             <a href="login.jsp" class="hover:text-purple-300">Login</a>
             <a href="register.jsp" class="hover:text-purple-300">Register</a>
+            <a href="admin.jsp" class="hover:text-purple-300">Admin</a>
         </div>
     </div>
 </nav>

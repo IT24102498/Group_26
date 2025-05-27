@@ -34,7 +34,50 @@ public class EventDAO {
         }
     }
 
-    //merge sort for sorting
+    public void addEvent(Event event) {
+        events.add(event);
+        saveEventsToFile();
+    }
+
+    public boolean removeEvent(String eventId) {
+        boolean removed = events.removeIf(event -> event.getId().equals(eventId));
+        if (removed) {
+            saveEventsToFile();
+        }
+        return removed;
+    }
+
+    private void saveEventsToFile() {
+        try {
+            String path = getClass().getResource(RESOURCE_PATH).getPath();
+            path = path.replace("%20", " ");
+            File file = new File(path);
+
+            try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
+                for (Event event : events) {
+                    writer.println(eventToString(event));
+                }
+            }
+        } catch (IOException e) {
+            System.err.println("Error saving events to file: " + e.getMessage());
+        }
+    }
+
+    private String eventToString(Event event) {
+        return String.join(",",
+                event.getId(),
+                event.getName(),
+                event.getDescription(),
+                event.getDateTime().format(DATE_FORMATTER),
+                event.getVenue(),
+                String.valueOf(event.getPrice()),
+                String.valueOf(event.getAvailableTickets()),
+                event.getImagePath(),
+                event.getCategory()
+        );
+    }
+
+    //merge sort
     private List<Event> mergeSort(List<Event> events, Comparator<Event> comparator) {
         if (events.size() <= 1) {
             return new ArrayList<>(events);
@@ -65,11 +108,9 @@ public class EventDAO {
         return merged;
     }
 
-
     public List<Event> getAllEvents() {
         return new ArrayList<>(events);
     }
-
 
     private Event stringToEvent(String line) {
         try {
@@ -88,5 +129,4 @@ public class EventDAO {
             return null;
         }
     }
-
 }
