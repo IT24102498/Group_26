@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Booking System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body class="bg-no-repeat bg-center bg-cover bg-[url('images/background.jpg')]">
+<div class="min-h-screen flex justify-center items-center">
+    <div class="bg-white p-8 rounded-lg shadow-md container max-w-2xl">
+        <h2 class="text-2xl font-semibold mb-4 text-center">Event Booking System</h2>
+        <form action="events" method="post" class="space-y-4 mb-6">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Event Name</label>
+                <input type="text" id="name" name="name" class="w-full border rounded-md p-2" required>
+            </div>
+            <div>
+                <label for="date" class="block text-sm font-medium text-gray-700">Date (YYYY-MM-DD)</label>
+                <input type="text" id="date" name="date" class="w-full border rounded-md p-2" required>
+            </div>
+            <div>
+                <label for="popularity" class="block text-sm font-medium text-gray-700">Popularity (1-100)</label>
+                <input type="number" id="popularity" name="popularity" class="w-full border rounded-md p-2" required>
+            </div>
+            <button type="submit" class="w-full bg-blue-500 text-white p-2 rounded-md">Add Event</button>
+        </form>
+        <div class="mb-4">
+            <label for="sortBy" class="block text-sm font-medium text-gray-700">Sort By</label>
+            <select id="sortBy" onchange="window.location.href='events?sortBy='+this.value" class="w-full border rounded-md p-2">
+                <option value="date">Date</option>
+                <option value="popularity">Popularity</option>
+            </select>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">Events</h3>
+        <div class="space-y-2">
+            <% for (com.example.model.Event event : (java.util.List<com.example.model.Event>) request.getAttribute("events")) { %>
+            <div class="border p-4 rounded-md">
+                <h4 class="text-lg font-medium"><%= event.getName() %></h4>
+                <p>Date: <%= event.getDate() %></p>
+                <p>Popularity: <%= event.getPopularity() %></p>
+                <a href="booking.html?eventId=<%= event.getId() %>" class="text-blue-500">Book Now</a>
+            </div>
+            <% } %>
+        </div>
+        <a href="history" class="block text-center text-blue-500 mt-4">View Booking History</a>
+    </div>
+</div>
+<script src="js/script.js"></script>
+</body>
+</html>
