@@ -4,16 +4,17 @@ import com.eventticket.model.Event;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
 
 public class EventDAO {
     private static final String RESOURCE_PATH = "/events.txt";
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-    private List<Event> events;
+    private static final int MAX_EVENTS = 100;
+    private Event[] events;
+    private int eventCount;
 
     public EventDAO() {
-        this.events = new ArrayList<>();
+        this.events = new Event[MAX_EVENTS];
+        this.eventCount = 0;
         loadEventsFromResource();
     }
 
@@ -25,30 +26,36 @@ public class EventDAO {
             while ((line = reader.readLine()) != null) {
                 Event event = stringToEvent(line);
                 if (event != null && event.getDateTime().isAfter(LocalDateTime.now())) {
-                    events.add(event);
+                    addEventToArray(event);
                 }
             }
-            Event[] eventArray = events.toArray(new Event[0]);
-            mergeSort(eventArray, 0, eventArray.length - 1);
-            events.clear();
-            for (Event event : eventArray) {
-                events.add(event);
-            }
+            mergeSort(events, 0, eventCount - 1);
         } catch (IOException e) {
             System.err.println("Error loading events from resources: " + e.getMessage());
         }
     }
 
     public void addEvent(Event event) {
-        events.add(event);
-        saveEventsToFile();
+        if (eventCount < MAX_EVENTS) {
+            addEventToArray(event);
+            saveEventsToFile();
+        } else {
+            System.out.println("Cannot add event: Maximum event limit reached.");
+        }
+    }
+
+    private void addEventToArray(Event event) {
+        if (eventCount < MAX_EVENTS) {
+            events[eventCount++] = event;
+        }
     }
 
     public boolean removeEvent(String eventId) {
         boolean removed = false;
-        for (int i = 0; i < events.size(); i++) {
-            if (events.get(i).getId().equals(eventId)) {
-                events.remove(i);
+        for (int i = 0; i < eventCount; i++) {
+            if (events[i].getId().equals(eventId)) {
+                System.arraycopy(events, i + 1, events, i, eventCount - i - 1);
+                events[--eventCount] = null;
                 removed = true;
                 break;
             }
@@ -66,8 +73,8 @@ public class EventDAO {
             File file = new File(path);
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
-                for (Event event : events) {
-                    writer.println(eventToString(event));
+                for (int i = 0; i < eventCount; i++) {
+                    writer.println(eventToString(events[i]));
                 }
             }
         } catch (IOException e) {
@@ -88,6 +95,7 @@ public class EventDAO {
                 event.getCategory()
         );
     }
+
     private void mergeSort(Event[] arr, int left, int right) {
         if (left < right) {
             int mid = (left + right) / 2;
@@ -122,8 +130,10 @@ public class EventDAO {
         }
     }
 
-    public List<Event> getAllEvents() {
-        return new ArrayList<>(events);
+    public Event[] getAllEvents() {
+        Event[] result = new Event[eventCount];
+        System.arraycopy(events, 0, result, 0, eventCount);
+        return result;
     }
 
     private Event stringToEvent(String line) {
@@ -139,7 +149,7 @@ public class EventDAO {
             );
         }
         catch (Exception e) {
-            System.err.println("Error " + e.getMessage());
+            System.err.println("Error: " + e.getMessage());
             return null;
         }
     }
