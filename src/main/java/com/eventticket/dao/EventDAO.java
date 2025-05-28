@@ -4,7 +4,8 @@ import com.eventticket.model.Event;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EventDAO {
     private static final String RESOURCE_PATH = "/events.txt";
@@ -27,8 +28,12 @@ public class EventDAO {
                     events.add(event);
                 }
             }
-            //sort by date using merge sort
-            events = mergeSort(events, Comparator.comparing(Event::getDateTime));
+            Event[] eventArray = events.toArray(new Event[0]);
+            mergeSort(eventArray, 0, eventArray.length - 1);
+            events.clear();
+            for (Event event : eventArray) {
+                events.add(event);
+            }
         } catch (IOException e) {
             System.err.println("Error loading events from resources: " + e.getMessage());
         }
@@ -40,7 +45,14 @@ public class EventDAO {
     }
 
     public boolean removeEvent(String eventId) {
-        boolean removed = events.removeIf(event -> event.getId().equals(eventId));
+        boolean removed = false;
+        for (int i = 0; i < events.size(); i++) {
+            if (events.get(i).getId().equals(eventId)) {
+                events.remove(i);
+                removed = true;
+                break;
+            }
+        }
         if (removed) {
             saveEventsToFile();
         }
@@ -50,7 +62,7 @@ public class EventDAO {
     private void saveEventsToFile() {
         try {
             String path = getClass().getResource(RESOURCE_PATH).getPath();
-            path = path.replace("%20", " ");
+            path = path.replace("%20", "src/main/resources/events.txt");
             File file = new File(path);
 
             try (PrintWriter writer = new PrintWriter(new FileWriter(file))) {
@@ -76,36 +88,38 @@ public class EventDAO {
                 event.getCategory()
         );
     }
-
-    //merge sort
-    private List<Event> mergeSort(List<Event> events, Comparator<Event> comparator) {
-        if (events.size() <= 1) {
-            return new ArrayList<>(events);
+    private void mergeSort(Event[] arr, int left, int right) {
+        if (left < right) {
+            int mid = (left + right) / 2;
+            mergeSort(arr, left, mid);
+            mergeSort(arr, mid + 1, right);
+            merge(arr, left, mid, right);
         }
-
-        int mid = events.size() / 2;
-        List<Event> left = mergeSort(events.subList(0, mid), comparator);
-        List<Event> right = mergeSort(events.subList(mid, events.size()), comparator);
-
-        return merge(left, right, comparator);
     }
 
-    private List<Event> merge(List<Event> left, List<Event> right, Comparator<Event> comparator) {
-        List<Event> merged = new ArrayList<>();
-        int i = 0, j = 0;
+    private void merge(Event[] arr, int left, int mid, int right) {
+        Event[] temp = new Event[right - left + 1];
+        int i = left, j = mid + 1, k = 0;
 
-        while (i < left.size() && j < right.size()) {
-            if (comparator.compare(left.get(i), right.get(j)) <= 0) {
-                merged.add(left.get(i++));
+        while (i <= mid && j <= right) {
+            if (arr[i].getDateTime().compareTo(arr[j].getDateTime()) <= 0) {
+                temp[k++] = arr[i++];
             } else {
-                merged.add(right.get(j++));
+                temp[k++] = arr[j++];
             }
         }
 
-        merged.addAll(left.subList(i, left.size()));
-        merged.addAll(right.subList(j, right.size()));
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
 
-        return merged;
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i - left];
+        }
     }
 
     public List<Event> getAllEvents() {
